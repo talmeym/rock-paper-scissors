@@ -1,0 +1,74 @@
+{
+    "kind": "regurgitator-configuration",
+    "steps": [
+        { "id": "id-session", "kind": "identify-session", "source": "request-metadata:http-session-id" },
+        {
+            "id": "are-we-playing",
+            "kind": "decision",
+            "steps": [
+                { "id": "not-playing", "kind": "create-http-response", "content-type":"text/plain", "value": "it's good, but it's not the one!" },
+                {
+                    "id": "playing",
+                    "kind": "sequence",
+                    "steps": [
+                        { "id": "extract-player-choice", "kind": "json-parameter", "name": "playerchoice", "source": "request-payload:text", "json-path": "$.choice" },
+                        { "id": "generate-computer-choice", "kind": "generate-parameter", "name": "computerchoice", "generator": "rock-paper-scissors-choice" },
+                        {
+                            "id": "determine-result",
+                            "kind": "decision",
+                            "steps": [
+                                {
+                                    "id": "draw", "kind": "sequence",
+                                    "steps": [
+                                        { "id": "set-draw-result", "kind": "create-parameter", "name": "result", "value": "a draw" },
+                                        { "id": "set-session-draw-total", "kind": "create-parameter", "name": "session:draw-total", "type": "NUMBER", "merge": "CONCAT", "value": "1" }
+                                    ]
+                                },
+                                {
+                                    "id": "player-wins", "kind": "sequence",
+                                    "steps": [
+                                        { "id": "set-player-win-result", "kind": "create-parameter", "name": "result", "value": "player wins" },
+                                        { "id": "set-session-player-total", "kind": "create-parameter", "name": "session:player-total", "type": "NUMBER", "merge": "CONCAT", "value": "1" }
+                                    ]
+                                },
+                                {
+                                    "id": "computer-wins", "kind": "sequence",
+                                    "steps": [
+                                        { "id": "set-computer-win-result", "kind": "create-parameter", "name": "result", "value": "computer wins" },
+                                        { "id": "set-session-computer-total", "kind": "create-parameter", "name": "session:computer-total", "type": "NUMBER", "merge": "CONCAT", "value": "1" }
+                                    ]
+                                }
+                            ],
+                            "default-step": "computer-wins",
+                            "rules": [
+                                { "id": "is-draw", "step": "draw", "conditions": [ { "id": "player-got-same-as-computer", "source": "playerchoice", "equals-param": "computerchoice" } ] },
+                                { "id": "rock-beats-scissors", "step": "player-wins", "conditions": [ { "id": "player-got-rock", "source": "playerchoice", "equals": "rock" }, { "id": "computer-got-scissors", "source": "computerchoice", "equals": "scissors" } ] },
+                                { "id": "paper-beats-rock", "step": "player-wins", "conditions": [ { "id": "player-got-paper", "source": "playerchoice", "equals": "paper" }, { "id": "computer-got-rock", "source": "computerchoice", "equals": "rock" } ] },
+                                { "id": "scissors-beats-paper", "step": "player-wins", "conditions": [ { "id": "player-got-scissors", "source": "playerchoice", "equals": "scissors" }, { "id": "computer-got-paper", "source": "computerchoice", "equals": "paper" } ] }
+                            ]
+                        },
+                        { "id": "get-session-draw-total", "kind": "create-parameter", "name": "drawtotal", "source": "session:draw-total", "value": "0" },
+                        { "id": "get-session-player-total", "kind": "create-parameter", "name": "playertotal", "source": "session:player-total", "value": "0" },
+                        { "id": "get-session-computer-total", "kind": "create-parameter", "name": "computertotal", "source": "session:computer-total", "value": "0" },
+                        { "id": "get-player_name", "kind": "create-parameter", "name": "player_name", "source": "global-metadata:player_name", "value": "Player" },
+                        { "id": "create-response", "kind": "build-parameter", "name": "response", "builder": { "kind": "freemarker-builder", "value": "{ \"message\":\"Welcome ${player_name}\", \"player\": \"${playerchoice}\", \"computer\": \"${computerchoice}\", \"result\": \"${result}\", \"totals\": { \"wins\": ${playertotal}, \"losses\": ${computertotal}, \"draws\": ${drawtotal} } }" } },
+                        { "id": "tell-result", "kind": "create-http-response", "content-type": "application/json", "source": "response" }
+                    ]
+                }
+            ],
+            "default-step": "not-playing",
+            "rules": [
+                {
+                    "id": "check-url",
+                    "step": "playing",
+                    "conditions": [
+                        { "id": "method-is-post", "source": "request-metadata:method", "equals": "POST" },
+                        { "id": "uri-is-rps", "source": "request-metadata:request-uri", "equals": "/rockpaperscissors" },
+                        { "id": "payload-exists", "source": "request-payload:text", "exists": "true" },
+                        { "id": "payload-contains-choice", "source": "request-payload:text", "contains-json-path": "$.choice" }
+                    ]
+                }
+            ]
+        }
+    ]
+}

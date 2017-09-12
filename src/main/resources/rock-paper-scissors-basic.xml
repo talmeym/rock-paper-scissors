@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rg:regurgitator-configuration xmlns:rg="http://core.regurgitator.emarte.com" xmlns:rge="http://extensions.regurgitator.emarte.com" xmlns:rgw="http://web.extensions.regurgitator.emarte.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+							   xsi:schemaLocation="http://core.regurgitator.emarte.com regurgitatorCore.xsd http://extensions.regurgitator.emarte.com regurgitatorExtensions.xsd http://web.extensions.regurgitator.emarte.com regurgitatorExtensionsWeb.xsd" id="rock-paper-scissors">
+	<rg:create-parameter id="set-content-type-json" name="response-metadata:content-type" value="application/json"/>
+	<rg:decision id="are-we-playing">
+		<rg:steps>
+			<rgw:create-http-response id="not-playing" content-type="text/plain" value="It's good, but it's not the one!"/>
+			<rg:sequence id="playing">
+				<rge:json-parameter id="extract-choice" name="playerchoice" source="request-payload:text" json-path="$.choice"/>
+				<rg:generate-parameter id="generate-computer-choice" name="computerchoice" generator="rock-paper-scissors-choice"/>
+				<rg:decision id="determine-result">
+					<rg:steps>
+							<rg:create-parameter id="draw" name="result" value="a draw"/>
+							<rg:create-parameter id="player-wins" name="result" value="player wins"/>
+							<rg:create-parameter id="computer-wins" name="result" value="computer wins"/>
+					</rg:steps>
+					<rg:rules default-step="computer-wins">
+						<rg:rule id="is-draw" step="draw">
+							<rg:condition id="player-got-same-as-computer" source="playerchoice" equals-param="computerchoice"/>
+						</rg:rule>
+						<rg:rule id="rock-beats-paper" step="player-wins">
+							<rg:condition id="player-rock" source="playerchoice" equals="rock"/>
+							<rg:condition id="comp-scissors" source="computerchoice" equals="scissors"/>
+						</rg:rule>
+						<rg:rule id="paper-beats-rock" step="player-wins">
+							<rg:condition id="player-paper" source="playerchoice" equals="paper"/>
+							<rg:condition id="comp-rock" source="computerchoice" equals="rock"/>
+						</rg:rule>
+						<rg:rule id="scissors-beats-paper" step="player-wins">
+							<rg:condition id="player-scissors" source="playerchoice" equals="scissors"/>
+							<rg:condition id="comp-paper" source="computerchoice" equals="paper"/>
+						</rg:rule>
+					</rg:rules>
+				</rg:decision>
+				<rg:build-parameter id="create-response" name="response">
+					<rge:freemarker-builder>{ "player-choice": "${playerchoice}", "computer-choice": "${computerchoice}", "result": "${result}" }</rge:freemarker-builder>
+				</rg:build-parameter>
+				<rgw:create-http-response id="tell-result" content-type="application/json" source="response"/>
+			</rg:sequence>
+		</rg:steps>
+		<rg:rules default-step="not-playing">
+			<rg:rule id="check-url" step="playing">
+				<rg:condition id="method-is-post" source="request-metadata:method" equals="POST"/>
+				<rg:condition id="url-is-rps" source="request-metadata:request-uri" equals="/rockpaperscissors"/>
+				<rg:condition id="payload-exists" source="request-payload:text" exists="true"/>
+				<rg:condition id="payload-contains-choice" source="request-payload:text" contains-json-path="$.choice"/>
+			</rg:rule>
+		</rg:rules>
+	</rg:decision>
+</rg:regurgitator-configuration>

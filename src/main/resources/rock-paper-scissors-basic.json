@@ -1,0 +1,60 @@
+{
+    "kind": "regurgitator-configuration",
+    "steps": [
+        {
+            "kind": "decision",
+            "steps": [
+                { "id": "not-playing", "kind": "create-http-response", "content-type": "text/plain", "value": "it's good, but it's not the one!" },
+                {
+                    "id": "playing",
+                    "kind": "sequence",
+                    "steps": [
+                        { "kind": "json-parameter", "name": "playerchoice", "source": "request-payload:text", "json-path": "$.choice" },
+                        { "kind": "generate-parameter", "name": "computerchoice", "generator": "rock-paper-scissors-choice" },
+                        {
+                            "kind": "decision",
+                            "steps": [
+                                { "id": "draw", "kind": "create-parameter", "name": "result", "value": "a draw" },
+                                { "id": "player-wins", "kind": "create-parameter", "name": "result", "value": "player wins" },
+                                { "id": "computer-wins", "kind": "create-parameter", "name": "result", "value": "computer wins" }
+                            ],
+                            "default-step": "computer-wins",
+                            "rules": [
+                                {
+                                    "step": "draw",
+                                    "conditions": [ { "source": "playerchoice", "equals-param": "computerchoice" } ]
+                                },
+                                {
+                                    "step": "player-wins",
+                                    "conditions": [ { "source": "playerchoice", "equals": "rock" }, { "source": "computerchoice", "equals": "scissors" } ]
+                                },
+                                {
+                                    "step": "player-wins",
+                                    "conditions": [ { "source": "playerchoice", "equals": "paper" }, { "source": "computerchoice", "equals": "rock" } ]
+                                },
+                                {
+                                    "step": "player-wins",
+                                    "conditions": [ { "source": "playerchoice", "equals": "scissors" }, { "source": "computerchoice", "equals": "paper" } ]
+                                }
+                            ]
+                        },
+                        { "kind": "build-parameter", "name": "response", "builder": { "kind": "freemarker-builder", "value": "{ \"player\": \"${playerchoice}\", \"computer\": \"${computerchoice}\", \"result\": \"${result}\" }" } },
+                        { "kind": "create-http-response", "content-type":"application/json", "source": "response" }
+                    ]
+                }
+            ],
+            "default-step": "not-playing",
+            "rules": [
+                {
+                    "step": "playing",
+                    "conditions": [
+                        { "source": "request-metadata:method", "equals": "POST" },
+                        { "source": "request-metadata:request-uri", "equals": "/rockpaperscissors" },
+                        { "source": "request-payload:text", "exists": "true" },
+                        { "source": "request-payload:text", "contains-json-path": "$.choice" }
+                    ]
+                }
+            ]
+        }
+    ]
+}

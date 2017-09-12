@@ -1,0 +1,15 @@
+# rock-paper-scissors
+an example project that implements a rock-paper-scissors service using [regurgitator](http://github.com/talmeym/regurgitator-all)
+
+to use:
+
+- git clone https://github.com/talmeym/rock-paper-scissors.git
+- mvn clean install
+- start up a tomcat deploying target/rock-paper-scissors-0.0.1.war on context /rockpaperscissors
+- POST to /rockpaperscissors with following payload:
+
+```json
+{
+    "choice":"[rock|paper|scissors]"
+}
+```

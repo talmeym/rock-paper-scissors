@@ -1,0 +1,76 @@
+regurgitator-configuration:
+ steps:
+ - decision:
+    steps:
+    - create-http-response:
+       id: not-playing
+       content-type: text/plain
+       value: it's good, but it's not the one!
+    - sequence:
+       id: playing
+       steps:
+       - json-parameter:
+          name: playerchoice
+          source: request-payload:text
+          json-path: $.choice
+       - generate-parameter:
+          name: computerchoice
+          generator: rock-paper-scissors-choice
+       - decision:
+          steps:
+          - create-parameter:
+             id: draw
+             name: result
+             value: a draw
+          - create-parameter:
+             id: player-wins
+             name: result
+             value: player wins
+          - create-parameter:
+             id: computer-wins
+             name: result
+             value: computer wins
+          default-step: computer-wins
+          rules:
+          - step: draw
+            conditions:
+             - source: playerchoice
+               equals-param: computerchoice
+          - step: player-wins
+            conditions:
+            - source: playerchoice
+              equals: rock
+            - source: computerchoice
+              equals: scissors
+          - step: player-wins
+            conditions:
+            - source: playerchoice
+              equals: paper
+            - source: computerchoice
+              equals: rock
+          - step: player-wins
+            conditions:
+            - source: playerchoice
+              equals: scissors
+            - source: computerchoice
+              equals: paper
+       - build-parameter:
+          name: response
+          builder:
+           freemarker-builder:
+            value: "{ \"player\": \"${playerchoice}\", \"computer\": \"${computerchoice}\", \"result\": \"${result}\" }"
+       - create-http-response:
+          content-type: application/json
+          source: response
+    default-step: not-playing
+    rules:
+    - step: playing
+      conditions:
+      - source: request-metadata:method
+        equals: POST
+      - source: request-metadata:request-uri
+        equals: /rockpaperscissors
+      - source: request-payload:text
+        exists: true
+      - source: request-payload:text
+        contains-json-path: $.choice
