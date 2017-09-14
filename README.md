@@ -1,5 +1,5 @@
 # rock-paper-scissors
-an example project that implements a rock-paper-scissors service using [regurgitator](http://github.com/talmeym/regurgitator-all)
+an example project that implements a rock-paper-scissors service using [regurgitator](https://github.com/talmeym/regurgitator-all#regurgitator)
 
 to use:
 
