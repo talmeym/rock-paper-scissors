@@ -13,3 +13,7 @@ to use:
     "choice":"[rock|paper|scissors]"
 }
 ```
+
+## config
+
+configuration files : basic [xml](https://github.com/talmeym/rock-paper-scissors/blob/master/src/main/resources/rock-paper-scissors-basic.xml) [json](https://github.com/talmeym/rock-paper-scissors/blob/master/src/main/resources/rock-paper-scissors-basic.xml) [yml](https://github.com/talmeym/rock-paper-scissors/blob/master/src/main/resources/rock-paper-scissors-basic.yml), regular [xml](https://github.com/talmeym/rock-paper-scissors/blob/master/src/main/resources/rock-paper-scissors.xml) [json](https://github.com/talmeym/rock-paper-scissors/blob/master/src/main/resources/rock-paper-scissors.xml) [yml](https://github.com/talmeym/rock-paper-scissors/blob/master/src/main/resources/rock-paper-scissors.yml)
