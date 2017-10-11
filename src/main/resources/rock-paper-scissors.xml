@@ -4,7 +4,7 @@
 	<rg:identify-session id="id-session" source="request-metadata:http-session-id"/>
 	<rg:decision id="are-we-playing">
 		<rg:steps>
-			<rg:create--http-response id="not-playing" content-type="text/plain" value="It's good, but it's not the one!"/>
+			<rgw:create-http-response id="not-playing" content-type="text/plain" value="It's good, but it's not the one!"/>
 			<rg:sequence id="playing">
 				<rge:json-parameter id="extract-choice" name="playerchoice" source="request-payload:text" json-path="$.choice"/>
 				<rg:generate-parameter id="generate-computer-choice" name="computerchoice" generator="rock-paper-scissors-choice"/>
@@ -54,7 +54,7 @@
 		<rg:rules default-step="not-playing">
 			<rg:rule id="check-url" step="playing">
 				<rg:condition id="method-is-post" source="request-metadata:method" equals="POST"/>
-				<rg:condition id="url-is-rps" source="request-metadata:request-uri" equals="/rockpaperscissors"/>
+				<rg:condition id="url-is-rps" source="request-metadata:request-uri" contains="/rockpaperscissors"/>
 				<rg:condition id="payload-exists" source="request-payload:text" exists="true"/>
 				<rg:condition id="payload-contains-choice" source="request-payload:text" contains-json-path="$.choice"/>
 			</rg:rule>
