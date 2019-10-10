@@ -11,7 +11,7 @@ public class RockPaperScissorsChoice implements ValueGenerator {
 	private static String[] CHOICES = {"rock", "paper", "scissors"};
 
 	@Override
-	public Object generate() throws RegurgitatorException {
+	public Object generate() {
 		int choice = RANDOM.nextInt(3);
 		log.debug("random is " + choice);
 		return CHOICES[choice];
