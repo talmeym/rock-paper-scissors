@@ -35,8 +35,8 @@ an example project that implements a rock-paper-scissors service using [regurgit
 ```json
 {
     "message": "Hi Player",
-    "player": "hello Andy",
-    "computer": "rock",
+    "player": "rock",
+    "computer": "paper",
     "result": "computer wins",
     "totals": {
         "wins": 0,
