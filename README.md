@@ -12,8 +12,7 @@ an example project that implements a rock-paper-scissors service using [regurgit
 ```json
 {
     "choice":"[rock|paper|scissors]"
-}
-```
+}```
 
 ## to use (in a container):
 
@@ -27,9 +26,28 @@ an example project that implements a rock-paper-scissors service using [regurgit
 ```json
 {
     "choice":"[rock|paper|scissors]"
-}
-```
+}```
 
+## response
+
+```json
+{
+    "message": "Hi Player",
+    "player": "hello Andy",
+    "computer": "rock",
+    "result": "computer wins",
+    "totals": {
+        "wins": 0,
+        "losses": 1,
+        "draws": 0
+    }
+}```
+
+# global parameters
+
+- PUT to http://localhost:8080/global?param=player_name&value=Miles
+- See player name change in game responses
+- GET http://localhost:8080/global to see all global variables
 
 ## configuration files
 
