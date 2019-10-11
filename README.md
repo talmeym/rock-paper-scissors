@@ -1,10 +1,10 @@
 # rock-paper-scissors
 an example project that implements a rock-paper-scissors service using [regurgitator](https://github.com/talmeym/regurgitator-all#regurgitator)
 
-to use:
+to use (as a war file):
 
 - git clone https://github.com/talmeym/rock-paper-scissors.git
-- mvn clean install
+- mvn -f pom.war.xml clean install
 - start up a tomcat deploying target/rock-paper-scissors-0.0.1.war on context /rockpaperscissors
 - POST to /rockpaperscissors with following payload:
 
@@ -13,6 +13,21 @@ to use:
     "choice":"[rock|paper|scissors]"
 }
 ```
+
+to use (in a container):
+
+- git clone https://github.com/talmeym/rock-paper-scissors.git
+- mvn -f pom.jetty.xml clean install
+- docker build . -t rock-paper-scissors
+- docker run -p 8080:8080 rock-paper-scissors
+- POST to /rockpaperscissors with following payload:
+
+```json
+{
+    "choice":"[rock|paper|scissors]"
+}
+```
+
 
 ## configuration files
 
