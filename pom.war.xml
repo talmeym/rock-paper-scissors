@@ -29,30 +29,16 @@
             <artifactId>regurgitator-extensions-xml</artifactId>
             <version>0.0.1</version>
         </dependency>
-
         <dependency>
             <groupId>com.emarte.regurgitator</groupId>
             <artifactId>regurgitator-extensions-web-xml</artifactId>
             <version>0.0.1</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>9.3.27.v20190418</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-            <version>9.3.27.v20190418</version>
-        </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.25</version>
         </dependency>
-
     </dependencies>
+
 </project>
