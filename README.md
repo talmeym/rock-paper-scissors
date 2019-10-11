@@ -12,7 +12,8 @@ an example project that implements a rock-paper-scissors service using [regurgit
 ```json
 {
     "choice":"[rock|paper|scissors]"
-}```
+}
+```
 
 ## to use (in a container):
 
@@ -26,7 +27,8 @@ an example project that implements a rock-paper-scissors service using [regurgit
 ```json
 {
     "choice":"[rock|paper|scissors]"
-}```
+}
+```
 
 ## response
 
@@ -41,7 +43,8 @@ an example project that implements a rock-paper-scissors service using [regurgit
         "losses": 1,
         "draws": 0
     }
-}```
+}
+```
 
 # global parameters
 
