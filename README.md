@@ -48,7 +48,7 @@ an example project that implements a rock-paper-scissors service using [regurgit
 
 # global parameters
 
-- PUT to http://localhost:8080/global?param=player_name&value=Miles
+- PUT to http://localhost:8080/global?name=player_name&value=Miles
 - See player name change in game responses
 - GET http://localhost:8080/global to see all global variables
 
