@@ -2,6 +2,7 @@
     "kind": "regurgitator-configuration",
     "steps": [
         {
+            "id": "are-we-playing",
             "kind": "decision",
             "steps": [
                 { "id": "not-playing", "kind": "create-http-response", "content-type": "text/plain", "value": "it's good, but it's not the one!" },

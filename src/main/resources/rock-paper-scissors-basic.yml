@@ -1,7 +1,8 @@
 regurgitator-configuration:
  steps:
  - decision:
-    steps:
+     id: are-we-playing
+     steps:
     - create-http-response:
        id: not-playing
        content-type: text/plain
