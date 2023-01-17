@@ -6,8 +6,8 @@ an example project that implements a rock-paper-scissors service using [regurgit
 - git clone https://github.com/talmeym/rock-paper-scissors.git
 - cd rock-paper-scissors
 - mvn -f pom.war.xml clean install
-- start up a tomcat (on say 8080) deploying target/rock-paper-scissors-0.0.1.war on context /rockpaperscissors
-- POST to http://localhost:8080/rockpaperscissors with following payload:
+- start up a tomcat (on say 8090) deploying target/rock-paper-scissors-0.0.1.war on context /rockpaperscissors
+- POST to http://localhost:8090/rockpaperscissors with following payload:
 
 ```json
 {
@@ -21,8 +21,8 @@ an example project that implements a rock-paper-scissors service using [regurgit
 - cd rock-paper-scissors
 - mvn -f pom.jetty.xml clean install
 - docker build . -t rock-paper-scissors
-- docker run -p 8080:8080 rock-paper-scissors
-- POST to http://localhost:8080/rockpaperscissors with following payload:
+- docker run -p 8090:8090 rock-paper-scissors
+- POST to http://localhost:8090/rockpaperscissors with following payload:
 
 ```json
 {
@@ -48,9 +48,9 @@ an example project that implements a rock-paper-scissors service using [regurgit
 
 # global parameters
 
-- PUT to http://localhost:8080/global?name=player_name&value=Miles
+- PUT to http://localhost:8090/global?name=player_name&value=Miles
 - See player name change in game responses
-- GET http://localhost:8080/global to see all global variables
+- GET http://localhost:8090/global to see all global variables
 
 ## configuration files
 
