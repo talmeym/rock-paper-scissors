@@ -1,6 +1,6 @@
-package com.rockpaperscissors;
+package uk.emarte.rockpaperscissors;
 
-import com.emarte.regurgitator.core.*;
+import uk.emarte.regurgitator.core.*;
 
 import java.util.Random;
 

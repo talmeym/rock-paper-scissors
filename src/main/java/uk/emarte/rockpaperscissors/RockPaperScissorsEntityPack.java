@@ -1,6 +1,6 @@
-package com.rockpaperscissors;
+package uk.emarte.rockpaperscissors;
 
-import com.emarte.regurgitator.core.*;
+import uk.emarte.regurgitator.core.*;
 
 public class RockPaperScissorsEntityPack extends AbstractEntityPack {
 	public RockPaperScissorsEntityPack() {
