@@ -1,4 +1,4 @@
-package uk.emarte.rockpaperscissors;
+package uk.emarte.regurgitator.rockpaperscissors;
 
 import uk.emarte.regurgitator.core.*;
 
