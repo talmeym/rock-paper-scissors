@@ -6,7 +6,7 @@ an example project that implements a rock-paper-scissors service using [regurgit
 - git clone https://github.com/talmeym/rock-paper-scissors.git
 - cd rock-paper-scissors
 - mvn -f pom.war.xml clean install
-- start up a tomcat (on say 8090) deploying target/rock-paper-scissors-0.0.1.war on context /rockpaperscissors
+- start up a tomcat (on say 8090) deploying target/rock-paper-scissors-0.1.1.war on context /rockpaperscissors
 - POST to http://localhost:8090/rockpaperscissors with following payload:
 
 ```json
