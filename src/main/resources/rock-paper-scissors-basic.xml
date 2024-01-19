@@ -10,9 +10,9 @@
 				<rg:generate-parameter id="generate-computer-choice" name="computerchoice" generator="rock-paper-scissors-choice"/>
 				<rg:decision id="determine-result">
 					<rg:steps>
-							<rg:create-parameter id="draw" name="result" value="a draw"/>
-							<rg:create-parameter id="player-wins" name="result" value="player wins"/>
-							<rg:create-parameter id="computer-wins" name="result" value="computer wins"/>
+						<rg:create-parameter id="draw" name="result" value="a draw"/>
+						<rg:create-parameter id="player-wins" name="result" value="player wins"/>
+						<rg:create-parameter id="computer-wins" name="result" value="computer wins"/>
 					</rg:steps>
 					<rg:rules default-step="computer-wins">
 						<rg:rule id="is-draw" step="draw">
